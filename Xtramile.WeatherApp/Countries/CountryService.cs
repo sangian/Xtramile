@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Xtramile.WeatherApp.Common.Dtos;
 
-namespace Xtramile.WeatherApp.Country
+namespace Xtramile.WeatherApp.Countries
 {
     public interface CountryService
     {

@@ -1,4 +1,6 @@
-﻿namespace Xtramile.WeatherApp.Country
+﻿using Xtramile.WeatherDomain.Entities;
+
+namespace Xtramile.WeatherApp.Countries
 {
     public class CountryDto
     {

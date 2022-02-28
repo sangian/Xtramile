@@ -1,4 +1,4 @@
-﻿namespace Xtramile.WeatherApp.City
+﻿namespace Xtramile.WeatherApp.Cities
 {
     public class GetCitiesByCountryRequest
     {
