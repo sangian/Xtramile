@@ -65,3 +65,4 @@ namespace Xtramile.WeatherApp.OpenWeatherMap
         [JsonPropertyName("humidity")]
         public int Humidity { get; set; }
     }
+}

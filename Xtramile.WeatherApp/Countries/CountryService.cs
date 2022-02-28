@@ -5,6 +5,6 @@ namespace Xtramile.WeatherApp.Countries
 {
     public interface CountryService
     {
-        IEnumerable<AppResultDto<CountryDto>> GetCountries();
+        AppResultDto<IList<CountryDto>> GetCountries();
     }
 }

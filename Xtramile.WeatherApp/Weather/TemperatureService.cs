@@ -3,8 +3,11 @@
     public interface TemperatureService
     {
         decimal ConvertFromKelvinToFahrenheit(decimal kelvin);
-        decimal ConvertFromKelvinToCelcius(decimal kelvin);
-        decimal ConvertFromFahrenheitToCelcius(decimal fahrenheit);
-        decimal CalculateDewPoint(decimal celciusAirTemp, int relativeHumidity);
+        decimal ConvertFromKelvinToCelsius(decimal kelvin);
+        decimal ConvertFromFahrenheitToKelvin(decimal fahrenheit);
+        decimal ConvertFromFahrenheitToCelsius(decimal fahrenheit);
+        decimal ConvertFromCelsiusToFahrenheit(decimal celsius);
+        decimal ConvertFromCelsiusToKelvin(decimal celsius);
+        decimal CalculateDewPoint(decimal celsiusAirTemp, int relativeHumidity);
     }
 }

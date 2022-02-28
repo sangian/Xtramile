@@ -1,9 +1,11 @@
-﻿using Xtramile.WeatherApp.Common.Dtos;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using Xtramile.WeatherApp.Common.Dtos;
 
 namespace Xtramile.WeatherApp.OpenWeatherMap
 {
     public interface OpenWeatherMapApiClient
     {
-        AppResultDto<CurrentWeatherResponseDto> GetCurrentWeather(CurrentWeatherRequestDto request);
+        Task<AppResultDto<CurrentWeatherResponseDto>> GetCurrentWeather(CurrentWeatherRequestDto request, CancellationToken cancellationToken);
     }
 }

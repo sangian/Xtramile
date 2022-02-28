@@ -5,6 +5,6 @@ namespace Xtramile.WeatherApp.Cities
 {
     public interface CityService
     {
-        IEnumerable<AppResultDto<CityDto>> GetCitiesByCountry(GetCitiesByCountryRequest request);
+        AppResultDto<IList<CityDto>> GetCitiesByCountry(GetCitiesByCountryRequest request);
     }
 }

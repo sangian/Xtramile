@@ -5,15 +5,16 @@ namespace Xtramile.WeatherApp.Weather
 {
     public class WeatherDto
     {
-        public DateTimeOffset Timestamp { get; set; }
         public WeatherLocationDto Location { get; set; }
-        public WeatherWindDto Wind { get; set; }
-        public int Visibility { get; set; }
         public IList<WeatherCondition> Conditions { get; set; }
         public WeatherTemperature Temperature { get; set; }
         public int Humidity { get; set; }
         public WeatherTemperature DewPoint { get; set; }
         public int Pressure { get; set; }
+        public int Visibility { get; set; }
+        public WeatherWindDto Wind { get; set; }
+        public DateTimeOffset Timestamp { get; set; }
+        public int Timezone { get; set; }
     }
 
     public class WeatherLocationDto
@@ -38,6 +39,6 @@ namespace Xtramile.WeatherApp.Weather
     {
         public decimal Kelvin { get; set; }
         public decimal Fahrenheit { get; set; }
-        public decimal Celcius { get; set; }
+        public decimal Celsius { get; set; }
     }
 }
