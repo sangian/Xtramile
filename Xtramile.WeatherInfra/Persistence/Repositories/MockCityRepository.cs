@@ -29,7 +29,7 @@ namespace Xtramile.WeatherInfra.Persistence.Repositories
 
         public IList<City> GetCitiesByCountry(string country)
         {
-            return cities.Where(c => c.Country.Equals(country)).ToList();
+            return cities.Where(c => c.Country.ToLower().Equals(country.ToLower())).ToList();
         }
     }
 }

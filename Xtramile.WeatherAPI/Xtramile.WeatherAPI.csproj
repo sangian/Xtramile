@@ -4,5 +4,10 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Xtramile.WeatherAPI.Shared\Xtramile.WeatherAPI.Shared.csproj" />
+    <ProjectReference Include="..\Xtramile.WeatherInfra\Xtramile.WeatherInfra.csproj" />
+  </ItemGroup>
+
 
 </Project>

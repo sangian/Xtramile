@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Xtramile.WeatherApp;
 using Xtramile.WeatherApp.Cities;
 using Xtramile.WeatherApp.Common.Repositories;
 using Xtramile.WeatherApp.Countries;
@@ -14,18 +13,15 @@ namespace Xtramile.WeatherInfra
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
-            services.AddApplication();
-
             services.AddSingleton<TemperatureService, XtramileTemperatureService>();
 
-            services.AddHttpClient<OpenWeatherMapApiClientImplementation>();
+            services.AddHttpClient<OpenWeatherMapApiClient, OpenWeatherMapApiClientImplementation>();
+            services.AddScoped<WeatherService, OpenWeatherMapWeatherService>();
 
             services.AddScoped<CountryRepository, MockCountryRepository>();
             services.AddScoped<CityRepository, MockCityRepository>();
             services.AddScoped<CountryService, MockCountryService>();
             services.AddScoped<CityService, MockCityService>();
-            services.AddScoped<OpenWeatherMapApiClient, OpenWeatherMapApiClientImplementation>();
-            services.AddScoped<WeatherService, OpenWeatherMapWeatherService>();
 
             return services;
         }

@@ -8,11 +8,13 @@ namespace Xtramile.WeatherApp.Cities
 {
     public class MockCityService : CityService
     {
+        private readonly CountryRepository countryRepository;
         private readonly CityRepository cityRepository;
         private readonly IMapper mapper;
 
-        public MockCityService(CityRepository cityRepository, IMapper mapper)
+        public MockCityService(CountryRepository countryRepository, CityRepository cityRepository, IMapper mapper)
         {
+            this.countryRepository = countryRepository;
             this.cityRepository = cityRepository;
             this.mapper = mapper;
         }
@@ -21,10 +23,31 @@ namespace Xtramile.WeatherApp.Cities
         {
             var result = new AppResultDto<IList<CityDto>>();
 
+            bool isValidCountry = countryRepository.IsValidCountryName(request.Country);
+
+            if (!isValidCountry)
+            {
+                result.Succeeded = false;
+                result.Status = 404;
+                result.Errors = new string[] { "Invalid country name." };
+
+                return result;
+            }
+
             IList<City> cities = cityRepository.GetCitiesByCountry(request.Country);
 
-            result.Status = 200;
-            result.Data = mapper.Map<IList<CityDto>>(cities);
+            if (cities.Count > 0)
+            {
+                result.Succeeded = true;
+                result.Status = 200;
+                result.Data = mapper.Map<IList<CityDto>>(cities);
+            }
+            else
+            {
+                result.Succeeded = false;
+                result.Status = 404;
+                result.Errors = new string[] { "No cities found." };
+            }
 
             return result;
         }

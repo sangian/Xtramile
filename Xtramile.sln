@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xtramile.WeatherInfra", "Xt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xtramile.WeatherDomain", "Xtramile.WeatherDomain\Xtramile.WeatherDomain.csproj", "{E178F095-A4E0-43B2-BEE3-BE6DCE24AC43}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xtramile.WeatherAPI.Shared", "Xtramile.WeatherAPI.Shared\Xtramile.WeatherAPI.Shared.csproj", "{1F6E9D3C-481C-4BC0-BB85-37F74386C176}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{E178F095-A4E0-43B2-BEE3-BE6DCE24AC43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E178F095-A4E0-43B2-BEE3-BE6DCE24AC43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E178F095-A4E0-43B2-BEE3-BE6DCE24AC43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F6E9D3C-481C-4BC0-BB85-37F74386C176}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F6E9D3C-481C-4BC0-BB85-37F74386C176}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F6E9D3C-481C-4BC0-BB85-37F74386C176}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F6E9D3C-481C-4BC0-BB85-37F74386C176}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

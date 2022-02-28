@@ -23,6 +23,7 @@ namespace Xtramile.WeatherApp.Countries
 
             IList<Country> countries = countryRepository.GetCountries();
 
+            result.Succeeded = true;
             result.Status = 200;
             result.Data = mapper.Map<IList<CountryDto>>(countries);
 

@@ -6,5 +6,6 @@ namespace Xtramile.WeatherApp.Common.Repositories
     public interface CountryRepository
     {
         IList<Country> GetCountries();
+        bool IsValidCountryName(string country);
     }
 }
