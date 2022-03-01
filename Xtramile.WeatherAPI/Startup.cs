@@ -21,7 +21,7 @@ namespace Xtramile.WeatherAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddApplication();
-            services.AddInfrastructure();
+            services.AddInfrastructure(Configuration);
 
             services.AddRouting(options => options.LowercaseUrls = true);
 

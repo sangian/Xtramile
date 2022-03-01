@@ -6,7 +6,7 @@ namespace Xtramile.WeatherApp.Weather
     public class WeatherDto
     {
         public WeatherLocationDto Location { get; set; }
-        public IList<WeatherCondition> Conditions { get; set; }
+        public IList<WeatherConditionDto> Conditions { get; set; }
         public WeatherTemperature Temperature { get; set; }
         public int Humidity { get; set; }
         public WeatherTemperature DewPoint { get; set; }
@@ -29,7 +29,7 @@ namespace Xtramile.WeatherApp.Weather
         public double Degree { get; set; }
     }
 
-    public class WeatherCondition
+    public class WeatherConditionDto
     {
         public string Condition { get; set; }
         public string Description { get; set; }

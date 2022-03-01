@@ -33,11 +33,11 @@ namespace Xtramile.WeatherApp.Weather
 
             if (result.Succeeded)
             {
-                IList<WeatherCondition> conditions = new List<WeatherCondition>();
+                IList<WeatherConditionDto> conditions = new List<WeatherConditionDto>();
 
                 foreach (var condition in result.Data.Conditions)
                 {
-                    conditions.Add(new WeatherCondition
+                    conditions.Add(new WeatherConditionDto
                     {
                         Condition = condition.Condition,
                         Description = condition.Description
