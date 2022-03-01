@@ -1,25 +1,26 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using Xtramile.WeatherApp.Common.Configurations;
 using Xtramile.WeatherApp.Common.Dtos;
 using Xtramile.WeatherApp.OpenWeatherMap;
 
 namespace Xtramile.WeatherInfra.External.OpenWeatherMap
 {
-    public class OpenWeatherMapApiClientImplementation : OpenWeatherMapApiClient
+    public class OpenWeatherMapApiClientImpl : OpenWeatherMapApiClient
     {
-        // TODO read ApiKey from configuration
-        private static readonly string ApiKey = "50b1eac3ebc361291f52b9629180f008";
-
         private readonly HttpClient apiClient;
-        private readonly ILogger<OpenWeatherMapApiClientImplementation> logger;
+        private readonly OpenWeatherMapConfiguration configuration;
+        private readonly ILogger<OpenWeatherMapApiClientImpl> logger;
 
-        public OpenWeatherMapApiClientImplementation(HttpClient apiClient, ILogger<OpenWeatherMapApiClientImplementation> logger)
+        public OpenWeatherMapApiClientImpl(HttpClient apiClient, IOptions<OpenWeatherMapConfiguration> configuration, ILogger<OpenWeatherMapApiClientImpl> logger)
         {
             this.apiClient = apiClient;
+            this.configuration = configuration.Value;
             this.logger = logger;
         }
 
@@ -32,9 +33,12 @@ namespace Xtramile.WeatherInfra.External.OpenWeatherMap
                 var reqMessage = new HttpRequestMessage()
                 {
                     Method = HttpMethod.Get,
-                    RequestUri = new Uri($"http://api.openweathermap.org/data/2.5/weather?q={request.CityName}&units=imperial&appid={ApiKey}"),
+                    RequestUri = new Uri($"http://api.openweathermap.org/data/2.5/weather?q={request.CityName}&units={configuration.Units}&appid={configuration.ApiKey}"),
                     Content = null
                 };
+
+                // set timeout
+                apiClient.Timeout = TimeSpan.FromMilliseconds(configuration.ApiTimeout);
 
                 using var resMessage = await apiClient.SendAsync(reqMessage, cancellationToken);
                 var msgStream = await resMessage.Content.ReadAsStreamAsync();
@@ -51,8 +55,13 @@ namespace Xtramile.WeatherInfra.External.OpenWeatherMap
                     response.Succeeded = false;
                     response.Status = (int)resMessage.StatusCode;
 
-                    switch (response.Status) 
+                    // More details see API errors section at the following page: https://openweathermap.org/faq
+
+                    switch (response.Status)
                     {
+                        case 401:
+                            response.Errors = new string[] { "Invalid API key." };
+                            break;
                         case 404:
                             response.Errors = new string[] { "Invalid city name." };
                             break;
@@ -63,19 +72,23 @@ namespace Xtramile.WeatherInfra.External.OpenWeatherMap
                         case 502:
                         case 503:
                         case 504:
-                            response.Errors = new string[] { "Unknown error. Please contact API provider." };
+                            response.Errors = new string[] { "Server error. Please contact API provider." };
                             break;
                     }
                 }
             }
             catch (Exception e)
             {
-                logger.LogWarning("Exception when executing {0}.{1} with Request={2} Exception={3}", nameof(OpenWeatherMapApiClientImplementation), nameof(GetCurrentWeather), request, e.Message);
+                Guid requestId = Guid.NewGuid();
 
-                throw;
+                logger.LogWarning("Exception when executing {Class}.{Method} with RequestId={ReqId} Request={Req} Exception={@Exception}", nameof(OpenWeatherMapApiClientImpl), nameof(GetCurrentWeather), requestId, request, e);
+
+                response.Succeeded = false;
+                response.Status = 0;
+                response.Errors = new string[] { $"Unknown error. Please refer to log with RequestId:{requestId} for detail." };
             }
 
-            logger.LogDebug("OpenWeatherMapApiClientImpl.GetCurrentWeather Result={@Result}", response);
+            logger.LogDebug("OpenWeatherMapApiClientImpl.GetCurrentWeather Response={@Response}", response);
 
             return response;
         }
