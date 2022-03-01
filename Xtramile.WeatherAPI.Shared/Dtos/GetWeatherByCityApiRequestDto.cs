@@ -2,10 +2,10 @@
 
 namespace Xtramile.WeatherAPI.Shared.Dtos
 {
-    public class GetCitiesByCountryApiRequestDto
+    public class GetWeatherByCityApiRequestDto
     {
         [Required]
         [StringLength(50)]
-        public string Country { get; set; }
+        public string City { get; set; }
     }
 }

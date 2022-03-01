@@ -44,11 +44,12 @@ namespace Xtramile.WeatherApp.Weather
                     });
                 }
 
-                decimal tempInCelsius = temperatureService.ConvertFromFahrenheitToCelsius(result.Data.Main.Temperature);
-                decimal tempInKelvin = temperatureService.ConvertFromFahrenheitToKelvin(result.Data.Main.Temperature);
-                decimal dewPointInCelsius = temperatureService.CalculateDewPoint(tempInCelsius, result.Data.Main.Humidity);
-                decimal dewPointInFahrenheit = temperatureService.ConvertFromCelsiusToFahrenheit(dewPointInCelsius);
-                decimal dewPointInKelvin = temperatureService.ConvertFromCelsiusToKelvin(dewPointInCelsius);
+                double tempInFahrenheit = Math.Round(result.Data.Main.Temperature, 2);
+                double tempInCelsius = temperatureService.ConvertFromFahrenheitToCelsius(tempInFahrenheit);
+                double tempInKelvin = temperatureService.ConvertFromFahrenheitToKelvin(tempInFahrenheit);
+                double dewPointInCelsius = temperatureService.CalculateDewPointInCelsius(tempInCelsius, result.Data.Main.Humidity);
+                double dewPointInFahrenheit = temperatureService.ConvertFromCelsiusToFahrenheit(dewPointInCelsius);
+                double dewPointInKelvin = temperatureService.ConvertFromCelsiusToKelvin(dewPointInCelsius);
 
                 response.Data = new WeatherDto
                 {
@@ -61,7 +62,7 @@ namespace Xtramile.WeatherApp.Weather
                     Temperature = new WeatherTemperature
                     {
                         Celsius = tempInCelsius,
-                        Fahrenheit = result.Data.Main.Temperature,
+                        Fahrenheit = tempInFahrenheit,
                         Kelvin = tempInKelvin
                     },
                     Humidity = result.Data.Main.Humidity,

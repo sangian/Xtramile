@@ -39,10 +39,10 @@ namespace Xtramile.WeatherApp.OpenWeatherMap
     public class CurrentWeatherWindDto
     {
         [JsonPropertyName("speed")]
-        public decimal Speed { get; set; }
+        public double Speed { get; set; }
 
         [JsonPropertyName("deg")]
-        public decimal Degree { get; set; }
+        public double Degree { get; set; }
     }
 
     public class CurrentWeatherCondition
@@ -57,7 +57,7 @@ namespace Xtramile.WeatherApp.OpenWeatherMap
     public class CurrentWeatherMain
     {
         [JsonPropertyName("temp")]
-        public decimal Temperature { get; set; }
+        public double Temperature { get; set; }
 
         [JsonPropertyName("pressure")]
         public int Pressure { get; set; }

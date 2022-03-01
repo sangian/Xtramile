@@ -1,44 +1,53 @@
-﻿namespace Xtramile.WeatherApp.Weather
+﻿using System;
+
+namespace Xtramile.WeatherApp.Weather
 {
     public class XtramileTemperatureService : TemperatureService
     {
-        public decimal CalculateDewPoint(decimal celsiusAirTemp, int relativeHumidity)
+        public double CalculateDewPointInCelsius(double tempInCelsius, int humidity)
         {
-            /*
-             * Formula reference: https://iridl.ldeo.columbia.edu/dochelp/QA/Basic/dewpoint.html
-             */
+            // Formula reference:
+            // https://iridl.ldeo.columbia.edu/dochelp/QA/Basic/dewpoint.html
 
-            return celsiusAirTemp - ((100 - relativeHumidity) / 5);
+            double dewPoint = tempInCelsius - ((100 - humidity) / 5);
+
+            return Math.Round(dewPoint, 2);
         }
 
-        public decimal ConvertFromCelsiusToFahrenheit(decimal celsius)
+        public double ConvertFromCelsiusToFahrenheit(double celsius)
         {
-            return (celsius * (9 / 5)) + 32;
+            double fahrenheit = (celsius * 1.8) + 32;
+            return Math.Round(fahrenheit, 2);
         }
 
-        public decimal ConvertFromCelsiusToKelvin(decimal celsius)
+        public double ConvertFromCelsiusToKelvin(double celsius)
         {
-            return celsius + 273.15m;
+            double kelvin = celsius + 273;
+            return Math.Round(kelvin, 2);
         }
 
-        public decimal ConvertFromFahrenheitToCelsius(decimal fahrenheit)
+        public double ConvertFromFahrenheitToCelsius(double fahrenheit)
         {
-            return ((fahrenheit - 32) * 5) / 9;
+            double celsius = 0.555 * (fahrenheit - 32);
+            return Math.Round(celsius, 2);
         }
 
-        public decimal ConvertFromFahrenheitToKelvin(decimal fahrenheit)
+        public double ConvertFromFahrenheitToKelvin(double fahrenheit)
         {
-            return (5 / 9) * (fahrenheit + 459.67m);
+            double kelvin = 0.555 * (fahrenheit - 32) + 273;
+            return Math.Round(kelvin, 2);
         }
 
-        public decimal ConvertFromKelvinToCelsius(decimal kelvin)
+        public double ConvertFromKelvinToCelsius(double kelvin)
         {
-            return kelvin - 273.15m;
+            double celsius = kelvin - 273;
+            return Math.Round(celsius, 2);
         }
 
-        public decimal ConvertFromKelvinToFahrenheit(decimal kelvin)
+        public double ConvertFromKelvinToFahrenheit(double kelvin)
         {
-           return 1.8m * (kelvin - 273) + 32;
+            double fahrenheit = 1.8 * (kelvin - 273) + 32;
+            return Math.Round(fahrenheit, 2);
         }
     }
 }

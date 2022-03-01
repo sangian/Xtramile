@@ -11,6 +11,7 @@ namespace Xtramile.WeatherInfra.External.OpenWeatherMap
 {
     public class OpenWeatherMapApiClientImplementation : OpenWeatherMapApiClient
     {
+        // TODO read ApiKey from configuration
         private static readonly string ApiKey = "50b1eac3ebc361291f52b9629180f008";
 
         private readonly HttpClient apiClient;

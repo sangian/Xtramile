@@ -2,12 +2,12 @@
 {
     public interface TemperatureService
     {
-        decimal ConvertFromKelvinToFahrenheit(decimal kelvin);
-        decimal ConvertFromKelvinToCelsius(decimal kelvin);
-        decimal ConvertFromFahrenheitToKelvin(decimal fahrenheit);
-        decimal ConvertFromFahrenheitToCelsius(decimal fahrenheit);
-        decimal ConvertFromCelsiusToFahrenheit(decimal celsius);
-        decimal ConvertFromCelsiusToKelvin(decimal celsius);
-        decimal CalculateDewPoint(decimal celsiusAirTemp, int relativeHumidity);
+        double ConvertFromKelvinToFahrenheit(double kelvin);
+        double ConvertFromKelvinToCelsius(double kelvin);
+        double ConvertFromFahrenheitToKelvin(double fahrenheit);
+        double ConvertFromFahrenheitToCelsius(double fahrenheit);
+        double ConvertFromCelsiusToFahrenheit(double celsius);
+        double ConvertFromCelsiusToKelvin(double celsius);
+        double CalculateDewPointInCelsius(double tempInCelsius, int humidity);
     }
 }

@@ -25,8 +25,8 @@ namespace Xtramile.WeatherApp.Weather
 
     public class WeatherWindDto
     {
-        public decimal Speed { get; set; }
-        public decimal Degree { get; set; }
+        public double Speed { get; set; }
+        public double Degree { get; set; }
     }
 
     public class WeatherCondition
@@ -37,8 +37,8 @@ namespace Xtramile.WeatherApp.Weather
 
     public class WeatherTemperature
     {
-        public decimal Kelvin { get; set; }
-        public decimal Fahrenheit { get; set; }
-        public decimal Celsius { get; set; }
+        public double Kelvin { get; set; }
+        public double Fahrenheit { get; set; }
+        public double Celsius { get; set; }
     }
 }
