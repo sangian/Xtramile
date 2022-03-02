@@ -1,0 +1,207 @@
+﻿@page "/"
+@using Xtramile.WeatherUI.Dtos
+@using Xtramile.WeatherUI.Models
+
+@inject HttpClient ApiClient
+
+<div class="container mb-3">
+<h3>Current Weather</h3>
+
+<h5 class="mb-2">
+    Select country and city to get current weather information:
+</h5>
+
+<EditForm Model="@Model">
+<div class="row mb-2">
+    <div class="col">
+        <div class="form-group">
+            <div class="input-group">
+                <InputSelect TValue="string" ValueExpression="() => Model.Country" ValueChanged="CountryChangedHandler" class="form-control form-control-lg" id="country" placeholder="Select Country">
+                    <option>-- Select Country --</option>
+                    @foreach (CountryDto country in Countries)
+                    {
+                        <option value="@(country.Name)">@(country.Name)</option>
+                    }
+                </InputSelect>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="form-group">
+            <div class="input-group">
+                <InputSelect TValue="string" ValueExpression="() => Model.City" ValueChanged="CityChangedHandler" class="form-control form-control-lg" id="city" placeholder="Select City">
+                    <option>-- Select City --</option>
+                    @foreach (CityDto city in Cities)
+                    {
+                        <option value="@(city.Name)">@(city.Name)</option>
+                    }
+                </InputSelect>
+            </div>
+        </div>
+    </div>
+</div>
+</EditForm>
+
+@if (Loading)
+{
+    <div class="row mt-3">
+        <div class="col">
+            <div class="text-center">
+                <div class="spinner-border" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    if (CurrentWeather != null)
+    {
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">@(Model.City), <small>@(Model.Country)</small></h4>
+                
+                <div class="mb-3">
+                    <h5>Temperature</h5>
+                    <ul class="list-group">
+                        <li class="list-group-item">@(CurrentWeather.Temperature.Fahrenheit) F</li>
+                        <li class="list-group-item">@(CurrentWeather.Temperature.Celsius) C</li>
+                        <li class="list-group-item">@(CurrentWeather.Temperature.Kelvin) K</li>
+                    </ul>
+                </div>
+
+                <div class="mb-3">
+                    <h5>Humidity</h5>
+                    <ul class="list-group">
+                        <li class="list-group-item">@(CurrentWeather.Humidity)%</li>
+                    </ul>
+                </div>
+                
+                <div class="mb-3">
+                    <h5>Dew Point</h5>
+                    <ul class="list-group">
+                        <li class="list-group-item">@(CurrentWeather.DewPoint.Fahrenheit) F</li>
+                        <li class="list-group-item">@(CurrentWeather.DewPoint.Celsius) C</li>
+                        <li class="list-group-item">@(CurrentWeather.DewPoint.Kelvin) K</li>
+                    </ul>
+                </div>
+
+                <div class="mb-3">
+                    <h5>Pressure</h5>
+                    <ul class="list-group">
+                        <li class="list-group-item">@(CurrentWeather.Pressure)</li>
+                    </ul>
+                </div>
+
+                <div class="mb-3">
+                    <h5>Sky</h5>
+                    <ul class="list-group">
+                        @foreach (var condition in CurrentWeather.Conditions)
+                        {
+                            <li class="list-group-item">@(condition.Condition) (@(condition.Description))</li>
+                        }
+                    </ul>
+                </div>
+
+                <div class="mb-3">
+                    <h5>Visibility</h5>
+                    <ul class="list-group">
+                        <li class="list-group-item">@(CurrentWeather.Visibility)</li>
+                    </ul>
+                </div>
+
+                <div class="mb-3">
+                    <h5>Wind</h5>
+                    <ul class="list-group">
+                        <li class="list-group-item">Speed @(CurrentWeather.Wind.Speed)</li>
+                        <li class="list-group-item">Degree @(CurrentWeather.Wind.Degree)</li>
+                    </ul>
+                </div>
+
+                <div class="mb-3">
+                    <h5>Timestamp</h5>
+                    <ul class="list-group">
+                        <li class="list-group-item">@(CurrentWeather.Timestamp.ToLocalTime())</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    }
+}
+</div>
+@code {
+    private bool Loading;
+    private WeatherFormModel Model = new WeatherFormModel();
+
+    private IList<CountryDto> Countries = new List<CountryDto>();
+    private IList<CityDto> Cities = new List<CityDto>();
+    private WeatherDto CurrentWeather;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetCountriesAsync();
+        await base.OnInitializedAsync();
+    }
+
+    private async Task GetCountriesAsync()
+    {
+        Loading = true;
+
+        using var response = await ApiClient.GetAsync("/api/country");
+
+        if (response.IsSuccessStatusCode)
+        {
+            var result = await response.Content.ReadFromJsonAsync<AppResultDto<IList<CountryDto>>>();
+            Countries = result.Data;
+        }
+
+        Loading = false;
+    }
+
+    private async Task GetCitiesAsync()
+    {
+        Loading = true;
+
+        using var response = await ApiClient.GetAsync($"/api/city?Country={Model.Country}");
+
+        if (response.IsSuccessStatusCode)
+        {
+            var result = await response.Content.ReadFromJsonAsync<AppResultDto<IList<CityDto>>>();
+            Cities = result.Data;
+        }
+
+        Loading = false;
+    }
+
+    private async Task GetCurrentWeatherAsync()
+    {
+        Loading = true;
+
+        using var response = await ApiClient.GetAsync($"/api/weather?City={Model.City}");
+
+        if (response.IsSuccessStatusCode)
+        {
+            var result = await response.Content.ReadFromJsonAsync<AppResultDto<WeatherDto>>();
+            CurrentWeather = result.Data;
+        }
+
+        Loading = false;
+    }
+
+    private async Task CountryChangedHandler(string value)
+    {
+        Model.Country = value;
+        CurrentWeather = null;
+
+        await GetCitiesAsync();
+    }
+
+    private async Task CityChangedHandler(string value)
+    {
+        Model.City = value;
+        CurrentWeather = null;
+
+        await GetCurrentWeatherAsync();
+    }
+}

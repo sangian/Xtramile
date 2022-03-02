@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace Xtramile.WeatherApp.Weather
+namespace Xtramile.WeatherUI.Dtos
 {
     public class WeatherDto
     {

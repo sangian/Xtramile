@@ -1,10 +1,8 @@
 ﻿using System.Text.Json.Serialization;
-using Xtramile.WeatherApp.Common.Mappings;
-using Xtramile.WeatherDomain.Entities;
 
-namespace Xtramile.WeatherApp.Cities
+namespace Xtramile.WeatherUI.Dtos
 {
-    public class CityDto : IMapFrom<City>
+    public class CityDto
     {
         [JsonPropertyName("country")]
         public string Country { get; set; }
